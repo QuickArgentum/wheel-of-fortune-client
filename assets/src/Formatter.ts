@@ -14,4 +14,13 @@ export default class Formatter {
         }
         return v.toFixed(1).toString() + Formatter.mult[i];
     }
+
+    public static HSVToRGB(hue: number, saturation: number, value: number) {
+        function f(n: number) : number {
+            let k = (n + hue / 60) % 6;
+            return value - value * saturation * Math.max(Math.min(k, 4 - k, 1), 0);
+        }
+
+        return {r: f(5) * 255, g: f(3) * 255, b: f(1) * 255};
+    }
 }

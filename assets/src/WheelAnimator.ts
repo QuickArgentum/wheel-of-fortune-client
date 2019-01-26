@@ -1,3 +1,4 @@
+import UIManager from "./UIManager"
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -12,6 +13,11 @@ export default class WheelAnimator extends cc.Component {
     @property
     maxFullRevolutions: number = 6;
 
+    @property(cc.Node)
+    backgroundStar: cc.Node = null;
+
+    private ui: UIManager;
+
     public spinWheel(segmentIndex: number, selector: Function, selectorTarget: any) {
         let fullRevolutions = Math.floor(Math.random() * (this.maxFullRevolutions - this.minFullRevolutions + 1)) + this.minFullRevolutions;
         let segmentAngle = segmentIndex * 22.5;
@@ -19,8 +25,11 @@ export default class WheelAnimator extends cc.Component {
 
         let rotate = cc.rotateBy(angle * this.secondsPerRevolution / 360, -angle);
         rotate.easing(cc.easeElasticOut(3.0));
+        let rotateStar = cc.rotateBy(angle * this.secondsPerRevolution / 360, -angle / 8);
+        rotateStar.easing(cc.easeElasticOut(3.0));
         let sequence = cc.sequence(rotate, cc.callFunc(selector, selectorTarget));
         this.node.runAction(sequence);
+        this.backgroundStar.runAction(rotateStar);
     }
 
     public resetWheel(selector: Function, selectorTarget: any) {

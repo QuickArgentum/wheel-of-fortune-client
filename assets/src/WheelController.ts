@@ -36,6 +36,7 @@ export default class WheelController extends cc.Component {
     private onSpinEnd() {
         this.updateUserScore();
         this.setSegmentValues();
+        this.ui.animateColors(0.5);
         this.animator.resetWheel(this.onResetEnd, this);
     }
 
