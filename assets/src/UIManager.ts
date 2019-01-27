@@ -17,10 +17,25 @@ export default class UIManager extends cc.Component {
     secondaryColorNodes: Array<cc.Node> = [];
 
     @property(cc.Node)
+    wheel: cc.Node = null;
+
+    @property(cc.Node)
     background: cc.Node = null;
 
     @property(cc.Node)
     backgroundStar: cc.Node = null;
+
+    @property(cc.Node)
+    blackCurtain: cc.Node = null;
+
+    private segmentLabels : cc.Label[] = [];
+
+    private getSegmentLabels() {
+        for(let segment of this.wheel.children) {
+            this.segmentLabels.push(segment.getComponentInChildren(cc.Label));
+        }
+        console.log(this.segmentLabels.length);
+    }
 
     public setUserScore(score: number) {
         this.userScore.string = "$" + Formatter.format(score);
@@ -49,7 +64,6 @@ export default class UIManager extends cc.Component {
         let colors = this.createColors();
         
         for(let node of this.primaryColorNodes){
-            console.log(colors.primary.r, colors.primary.g, colors.primary.b);
             let action = cc.tintTo(duration, colors.primary.r, colors.primary.g, colors.primary.b);
             node.runAction(action);
         }
@@ -61,10 +75,24 @@ export default class UIManager extends cc.Component {
         this.background.runAction(action);
         let actionStar = cc.tintTo(duration, colors.star.r, colors.star.g, colors.star.b);
         this.backgroundStar.runAction(actionStar);
+
+        for(let label of this.segmentLabels) {
+            let setInvisible = cc.fadeTo(0.0, 0);
+            let action = cc.fadeIn(duration);
+            let sequence = cc.sequence(setInvisible, action);
+            label.node.runAction(sequence);
+        }
+    }
+
+    private fadeOutCurtain(duration: number) {
+        let action = cc.fadeOut(duration);
+        this.blackCurtain.runAction(action);
     }
 
     onLoad() {
+        this.getSegmentLabels();
         this.animateColors(0.0);
+        this.fadeOutCurtain(1.0);
     }
 
 }
