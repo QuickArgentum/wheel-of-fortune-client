@@ -28,6 +28,9 @@ export default class UIManager extends cc.Component {
     @property(cc.Node)
     blackCurtain: cc.Node = null;
 
+    @property(cc.Node)
+    serverErrorScreen: cc.Node = null;
+
     private segmentLabels : cc.Label[] = [];
 
     private getSegmentLabels() {
@@ -43,6 +46,10 @@ export default class UIManager extends cc.Component {
 
     public setUserName(name: string) {
         this.userName.string = name;
+    }
+
+    public displayServerError() {
+        this.serverErrorScreen.active = true;
     }
 
     private createColors() {

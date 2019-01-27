@@ -30,6 +30,9 @@ export default class WheelController extends cc.Component {
     private spinWheel() {
         this.connector.getSpin(this.username).then((res) => {
             this.animator.spinWheel(res.data.index, this.onSpinEnd, this);
+        }).catch((err) => {
+            this.ui.displayServerError();
+            this.spinButton.getComponent(cc.Button).interactable = false;
         })
     }
 
@@ -55,12 +58,18 @@ export default class WheelController extends cc.Component {
             for(let i = 0; i < 16; i++) {
                 this.segmentLabels[i].string = Formatter.format(res.data[i]);
             }
+        }).catch((err) => {
+            this.ui.displayServerError();
+            this.spinButton.getComponent(cc.Button).interactable = false;
         })
     }
 
     private updateUserScore() {
         this.connector.getScore(this.username).then((res) => {
             this.ui.setUserScore(res.data.score);
+        }).catch((err) => {
+            this.ui.displayServerError();
+            this.spinButton.getComponent(cc.Button).interactable = false;
         })
     }
 
