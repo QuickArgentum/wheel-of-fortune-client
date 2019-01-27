@@ -31,6 +31,7 @@ export default class WheelController extends cc.Component {
         this.connector.getSpin(this.username).then((res) => {
             this.animator.spinWheel(res.data.index, this.onSpinEnd, this);
         }).catch((err) => {
+            console.log(err);
             this.ui.displayServerError();
             this.spinButton.getComponent(cc.Button).interactable = false;
         })
@@ -59,6 +60,7 @@ export default class WheelController extends cc.Component {
                 this.segmentLabels[i].string = Formatter.format(res.data[i]);
             }
         }).catch((err) => {
+            console.log(err);
             this.ui.displayServerError();
             this.spinButton.getComponent(cc.Button).interactable = false;
         })
@@ -68,6 +70,7 @@ export default class WheelController extends cc.Component {
         this.connector.getScore(this.username).then((res) => {
             this.ui.setUserScore(res.data.score);
         }).catch((err) => {
+            console.log(err);
             this.ui.displayServerError();
             this.spinButton.getComponent(cc.Button).interactable = false;
         })
@@ -82,8 +85,10 @@ export default class WheelController extends cc.Component {
         this.username = cc.find("persistentNode").getComponent(PersistentStorage).username;
         this.animator = this.wheel.getComponent(WheelAnimator);
 
+        this.ui.setUserName(this.username);
+
         this.initSegments();
-        this.setSegmentValues();
         this.updateUserScore();
+        this.setSegmentValues();
     }
 }

@@ -23,4 +23,19 @@ export default class Formatter {
 
         return {r: f(5) * 255, g: f(3) * 255, b: f(1) * 255};
     }
+
+    public static createColors() {
+        let hue = Math.floor(Math.random() * 360);
+        const primarySat = 0.5;
+        const backSat = 0.11;
+        const starSat = 0.2;
+        const secondaryVal = 0.7;
+
+        return {
+            primary: Formatter.HSVToRGB(hue, primarySat, 1),
+            secondary: Formatter.HSVToRGB(hue, primarySat, secondaryVal),
+            background: Formatter.HSVToRGB(hue, backSat, 1),
+            star: Formatter.HSVToRGB(hue, starSat, 1)
+        }
+    }
 }

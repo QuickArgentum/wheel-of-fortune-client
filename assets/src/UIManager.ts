@@ -37,38 +37,24 @@ export default class UIManager extends cc.Component {
         for(let segment of this.wheel.children) {
             this.segmentLabels.push(segment.getComponentInChildren(cc.Label));
         }
-        console.log(this.segmentLabels.length);
     }
 
     public setUserScore(score: number) {
-        this.userScore.string = "$" + Formatter.format(score);
+        if(this.userScore != null)
+            this.userScore.string = "$" + Formatter.format(score);
     }
 
     public setUserName(name: string) {
-        this.userName.string = name;
+        if(this.userName != null)
+            this.userName.string = name;
     }
 
     public displayServerError() {
         this.serverErrorScreen.active = true;
     }
 
-    private createColors() {
-        let hue = Math.floor(Math.random() * 360);
-        const primarySat = 0.5;
-        const backSat = 0.11;
-        const starSat = 0.2;
-        const secondaryVal = 0.7;
-
-        return {
-            primary: Formatter.HSVToRGB(hue, primarySat, 1),
-            secondary: Formatter.HSVToRGB(hue, primarySat, secondaryVal),
-            background: Formatter.HSVToRGB(hue, backSat, 1),
-            star: Formatter.HSVToRGB(hue, starSat, 1)
-        }
-    }
-
     public animateColors(duration: number) {
-        let colors = this.createColors();
+        let colors = Formatter.createColors();
         
         for(let node of this.primaryColorNodes){
             let action = cc.tintTo(duration, colors.primary.r, colors.primary.g, colors.primary.b);
@@ -96,8 +82,15 @@ export default class UIManager extends cc.Component {
         this.blackCurtain.runAction(action);
     }
 
+    public fadeInCurtain(duration: number, selector: Function, selectorTarget: any) {
+        let action = cc.fadeIn(duration);
+        let sequence = cc.sequence(action, cc.callFunc(selector, selectorTarget));
+        this.blackCurtain.runAction(sequence);
+    }
+
     onLoad() {
-        this.getSegmentLabels();
+        if(this.wheel != null)
+            this.getSegmentLabels();
         this.animateColors(0.0);
         this.fadeOutCurtain(1.0);
     }
