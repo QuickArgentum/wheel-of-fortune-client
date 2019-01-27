@@ -23,7 +23,10 @@ export default class NewClass extends cc.Component {
     }
 
     onLogin() {
-        this.persistent.username = this.nameBox.string;
+        let name = this.nameBox.string
+        if(!name.replace(/\s/g, '').length)
+            return;
+        this.persistent.username = name;
         this.ui.fadeInCurtain(1.0, () => {
             cc.director.loadScene(this.mainScene);
         }, this);

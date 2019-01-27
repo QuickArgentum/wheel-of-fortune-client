@@ -1,4 +1,3 @@
-import UIManager from "./UIManager"
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -24,8 +23,6 @@ export default class WheelAnimator extends cc.Component {
 
     @property(cc.Node)
     wheelPointer: cc.Node = null;
-
-    private ui: UIManager;
 
     public spinWheel(segmentIndex: number, selector: Function, selectorTarget: any) {
         let fullRevolutions = Math.floor(Math.random() * (this.maxFullRevolutions - this.minFullRevolutions + 1)) + this.minFullRevolutions;

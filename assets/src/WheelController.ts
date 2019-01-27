@@ -75,9 +75,7 @@ export default class WheelController extends cc.Component {
             this.spinButton.getComponent(cc.Button).interactable = false;
         })
     }
-
-    // LIFE-CYCLE CALLBACKS:
-
+    
     onLoad () {
         this.spinButton.node.on(cc.Node.EventType.TOUCH_END, (event) => this.onSpin(event));
         this.connector = new NetworkConnector();
